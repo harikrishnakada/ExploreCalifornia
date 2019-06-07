@@ -25,6 +25,21 @@ namespace ExploreCalifornia
                 app.UseDeveloperExceptionPage();
             }
 
+            //app.Run() is a middle ware. You can use the multiple middllw wares. When user makes a request it will only exceute in the order that you register the middleware in the pipeline.
+            //Shift the focus to more effective way to register the request handeling logic the "app.Use()".
+            //Like wise app.Run(), app.Use() also holds the function to handle the request processing logic.
+            //app.Use() has two parameters, first one represents the request 'context' and the second parameter 'next' represents the next middleware function registered in the pipeline.
+            //Use next() to execute the next middle ware.
+            app.Use(async (context, next) =>
+            {
+                //Checks the url with the pattern '/hello'
+                if (context.Request.Path.Value.StartsWith("/hello"))
+                {
+                    await context.Response.WriteAsync("Hello World!");
+                }
+                await next();
+            });
+
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello World!");
