@@ -30,20 +30,33 @@ namespace ExploreCalifornia
             //Like wise app.Run(), app.Use() also holds the function to handle the request processing logic.
             //app.Use() has two parameters, first one represents the request 'context' and the second parameter 'next' represents the next middleware function registered in the pipeline.
             //Use next() to execute the next middle ware.
-            app.Use(async (context, next) =>
-            {
-                //Checks the url with the pattern '/hello'
-                if (context.Request.Path.Value.StartsWith("/hello"))
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                }
-                await next();
-            });
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            //comment this below, if you want to run static html files
+            #region Non Static content
+            //app.Use(async (context, next) =>
+            //{
+            //    //Checks the url with the pattern '/hello'
+            //    if (context.Request.Path.Value.StartsWith("/hello"))
+            //    {
+            //        await context.Response.WriteAsync("Hello ASP NET Core!");
+            //    }
+            //    await next();
+            //});
+
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("Hello World!");
+            //});
+
+            #endregion
+
+            //This app.UseFileServer() call will register the static file middle ware component which tells ASPNET Core to try to match
+            //any unhadeld requests to a file in the 'wwwroot' folder and if that file exixts it will serve that file.
+            //This Mapping includes the defalut files (index.html)
+            //Use the static files middleware to render the any kind of static file content.
+            #region Static content
+            app.UseFileServer();
+            #endregion
         }
     }
 }
