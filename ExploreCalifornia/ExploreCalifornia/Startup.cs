@@ -22,9 +22,17 @@ namespace ExploreCalifornia
         {
             if (env.IsDevelopment())
             {
+                //This is used to display the default Exception page provided by the Microsoft. In order to over ride this and display user defined exeption page,
+                //we may need to add out custom error message static html file to to the wwwroot folder.
+                // And also currently this project is useing the default development environment. We may need to change it to the custom environment say 'Product'.
+                // You can change it in the solution properties environment variables.
                 app.UseDeveloperExceptionPage();
             }
 
+            //Define the custion exception page.
+            app.UseExceptionHandler("/error.html");
+
+            #region Non Static content
             //app.Run() is a middle ware. You can use the multiple middllw wares. When user makes a request it will only exceute in the order that you register the middleware in the pipeline.
             //Shift the focus to more effective way to register the request handeling logic the "app.Use()".
             //Like wise app.Run(), app.Use() also holds the function to handle the request processing logic.
@@ -32,7 +40,7 @@ namespace ExploreCalifornia
             //Use next() to execute the next middle ware.
 
             //comment this below, if you want to run static html files
-            #region Non Static content
+
             //app.Use(async (context, next) =>
             //{
             //    //Checks the url with the pattern '/hello'
@@ -50,12 +58,26 @@ namespace ExploreCalifornia
 
             #endregion
 
+            #region Error Hadling
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path.Value.Contains("invalid"))
+                    throw new Exception("ERROR !");
+
+                await next();
+
+            });
+
+            #endregion
+
+            #region Static content
             //This app.UseFileServer() call will register the static file middle ware component which tells ASPNET Core to try to match
             //any unhadeld requests to a file in the 'wwwroot' folder and if that file exixts it will serve that file.
             //This Mapping includes the defalut files (index.html)
             //Use the static files middleware to render the any kind of static file content.
-            #region Static content
+
             app.UseFileServer();
+
             #endregion
         }
     }
