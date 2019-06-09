@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ExploreCalifornia
@@ -20,7 +21,12 @@ namespace ExploreCalifornia
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            //use the cofigiration API to configure the specific features.
+            var configuration = new ConfigurationBuilder()
+                                        .AddEnvironmentVariables().Build();
+
+            //The congirations can be given in the launchSettings.json or through the solution properties under the environment variables.
+            if (configuration.GetValue<bool>("UseDevelopmentEnvironment") == true)
             {
                 //This is used to display the default Exception page provided by the Microsoft. In order to over ride this and display user defined exeption page,
                 //we may need to add out custom error message static html file to to the wwwroot folder.
@@ -28,9 +34,11 @@ namespace ExploreCalifornia
                 // You can change it in the solution properties environment variables.
                 app.UseDeveloperExceptionPage();
             }
-
-            //Define the custion exception page.
-            app.UseExceptionHandler("/error.html");
+            else
+            {
+                //Define the custion exception page.
+                app.UseExceptionHandler("/error.html");
+            }
 
             #region Non Static content
             //app.Run() is a middle ware. You can use the multiple middllw wares. When user makes a request it will only exceute in the order that you register the middleware in the pipeline.
