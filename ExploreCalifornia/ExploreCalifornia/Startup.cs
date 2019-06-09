@@ -22,11 +22,23 @@ namespace ExploreCalifornia
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             //use the cofigiration API to configure the specific features.
-            var configuration = new ConfigurationBuilder()
-                                        .AddEnvironmentVariables().Build();
+            #region configuration
+            //Configuration API using the environment variables.
+            //The configurations can be given in the launchSettings.json or through the solution properties under the environment variables.
 
-            //The congirations can be given in the launchSettings.json or through the solution properties under the environment variables.
-            if (configuration.GetValue<bool>("UseDevelopmentEnvironment") == true)
+            //var configuration = new ConfigurationBuilder()
+            //                            .AddEnvironmentVariables()
+            //                            .Build();
+
+            //You can also read the configurations from the user defined json 
+            var configuration = new ConfigurationBuilder()
+                                        .AddEnvironmentVariables()
+                                        .AddJsonFile(env.ContentRootPath + "/config.json")
+                                        .Build();
+
+            #endregion
+
+            if (configuration.GetValue<bool>("enableDeveloperException") == true)
             {
                 //This is used to display the default Exception page provided by the Microsoft. In order to over ride this and display user defined exeption page,
                 //we may need to add out custom error message static html file to to the wwwroot folder.
