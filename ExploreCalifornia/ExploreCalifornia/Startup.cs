@@ -12,14 +12,37 @@ namespace ExploreCalifornia
 {
     public class Startup
     {
+        private readonly IConfigurationRoot configuration;
+        public Startup(IHostingEnvironment env)
+        {
+            configuration = new ConfigurationBuilder()
+                                      .AddEnvironmentVariables()
+                                      .AddJsonFile(env.ContentRootPath + "/config.json")
+                                      .Build();
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //IServiceCollection exposes the hand full of methods that allows to configure the DI
+            //Some of the Important methods are 
+            //AddScoped: Will only create one instance of that type of each web request. 
+            //AddSingleTop :  Create only one instance for the entire application.
+            //AddTranisient: Shortest lifespan- An instance will b created every time one is requested. 
+            //Each of these methods allows you tell ASP NET core how to create instances of types when they are requested.
+            //The primary difference betwween them is how long that instance lives.
+
+            services.AddTransient<FeatureToogles>(x => new FeatureToogles {
+                EnableDeveloperExceptions = configuration.GetValue<bool>("enableDeveloperException")
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+
+        //Dependency injection is a development pattern which encourages loose coupling between components.
+        //This FeatureToogles instance will be injected by asp .net core dependecy injection framework
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, FeatureToogles features)
         {
             //use the cofigiration API to configure the specific features.
             #region configuration
@@ -31,14 +54,10 @@ namespace ExploreCalifornia
             //                            .Build();
 
             //You can also read the configurations from the user defined json 
-            var configuration = new ConfigurationBuilder()
-                                        .AddEnvironmentVariables()
-                                        .AddJsonFile(env.ContentRootPath + "/config.json")
-                                        .Build();
-
+          
             #endregion
 
-            if (configuration.GetValue<bool>("enableDeveloperException") == true)
+            if (features.EnableDeveloperExceptions)
             {
                 //This is used to display the default Exception page provided by the Microsoft. In order to over ride this and display user defined exeption page,
                 //we may need to add out custom error message static html file to to the wwwroot folder.
