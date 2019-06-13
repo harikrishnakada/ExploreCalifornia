@@ -36,6 +36,8 @@ namespace ExploreCalifornia
                 EnableDeveloperExceptions = configuration.GetValue<bool>("enableDeveloperException")
             });
 
+            services.AddMvc();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -118,6 +120,11 @@ namespace ExploreCalifornia
             app.UseFileServer();
 
             #endregion
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
+            });
+
         }
     }
 }
