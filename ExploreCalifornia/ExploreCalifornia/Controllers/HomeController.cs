@@ -8,12 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ExploreCalifornia.Controllers
 {
-    public class HomeController
+    public class HomeController : Controller
     {
         // GET: /<controller>/
-        public string Index()
+        public IActionResult Index()
         {
-            return "Hello World, This is ASP.NET Core";
+            //When returning the view(), it typically looks for Views/{controllerName}/Index.cshtml.
+            return View();
         }
     }
 }

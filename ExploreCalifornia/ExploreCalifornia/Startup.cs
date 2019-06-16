@@ -72,6 +72,10 @@ namespace ExploreCalifornia
                 //Define the custion exception page.
                 app.UseExceptionHandler("/error.html");
             }
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
+            });
 
             #region Non Static content
             //app.Run() is a middle ware. You can use the multiple middllw wares. When user makes a request it will only exceute in the order that you register the middleware in the pipeline.
@@ -120,10 +124,7 @@ namespace ExploreCalifornia
             app.UseFileServer();
 
             #endregion
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
-            });
+           
 
         }
     }
