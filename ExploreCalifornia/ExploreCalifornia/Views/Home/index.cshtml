@@ -42,7 +42,9 @@
         <li><a href="explorers.htm" title="Our community">Explorers <br /><span class="tagline">join our community</span></a>
             <ul>
                 <li><a href="explorers/join.htm" title="join our community">Join the Explorers</a></li>
-                <li><a href="/blog" title="read our blog!">Read our Blog</a></li>
+                @*<li><a href="/blog" title="read our blog!">Read our Blog</a></li>*@
+                <li><a href=@Url.Action("Index", "Blog") title="read our blog!">Read our Blog</a></li>
+                @*<li>@Html.ActionLink("Read our Blog", "Index", "Blog", null, new { title = "Read our blog!" })</li>*@
                 <li><a href="explorers/gallery.htm" title="contributor photos">Tour Photos</a></li>
                 <li><a href="_video/EC_podcast_full version.mov" title="check out our podcast">Video podcast</a></li>
             </ul>
