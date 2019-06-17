@@ -13,13 +13,13 @@ namespace ExploreCalifornia.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return new ContentResult { Content = "Blog posts" };
+            return View();
         }
 
         [Route("blogPost") ]
         public IActionResult Post(string id)
         {
-            return new ContentResult { Content = id };
+            return View();
         }
     }
 }
