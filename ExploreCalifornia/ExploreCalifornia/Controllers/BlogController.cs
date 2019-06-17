@@ -17,8 +17,13 @@ namespace ExploreCalifornia.Controllers
         }
 
         [Route("blogPost") ]
-        public IActionResult Post(string id)
+        public IActionResult Post()
         {
+            ViewBag.Title = "My blog Post";
+            ViewBag.Posted = DateTime.Now;
+            ViewBag.Author = "Charles";
+            ViewBag.Body = "This is a great blog post";
+
             return View();
         }
     }
