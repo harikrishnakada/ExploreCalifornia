@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AttributeRouting;
+using ExploreCalifornia.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -16,15 +18,17 @@ namespace ExploreCalifornia.Controllers
             return View();
         }
 
-        [Route("blogPost") ]
-        public IActionResult Post()
+        [Route("details") ]
+        public IActionResult BlogDetails()
         {
-            ViewBag.Title = "My blog Post";
-            ViewBag.Posted = DateTime.Now;
-            ViewBag.Author = "Charles";
-            ViewBag.Body = "This is a great blog post";
-
-            return View();
+            var blogDetails = new BlogDetails()
+            {
+                Author = "Charles",
+                Title = "My blog Post",
+                Body = "This is a great blog post",
+                PostedOn = DateTime.Now
+            };
+            return View(blogDetails);
         }
     }
 }
