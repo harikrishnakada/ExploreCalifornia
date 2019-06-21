@@ -15,20 +15,29 @@ namespace ExploreCalifornia.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return View();
-        }
-
-        [Route("details") ]
-        public IActionResult BlogDetails()
-        {
-            var blogDetails = new BlogDetails()
+            var posts = new[]
             {
+            new BlogDetails{
                 Author = "Charles",
-                Title = "My blog Post",
+                Title = "Finding Charles",
                 Body = "This is a great blog post",
                 PostedOn = DateTime.Now
-            };
-            return View(blogDetails);
-        }
+            },
+            new BlogDetails{
+                Author = "Boston",
+                Title = "The  new boston",
+                Body = "This is a great blog post",
+                PostedOn = DateTime.Now
+            }
+        };
+
+            return View(posts);
     }
+
+    [Route("details")]
+    public IActionResult BlogDetails()
+    {
+            return View();
+    }
+}
 }

@@ -1,13 +1,21 @@
-﻿
+﻿@model IEnumerable<ExploreCalifornia.Models.BlogDetails>
 @{
     Layout = "_Layout";
 }
 
 <h1>Explorer's Blog</h1>
 
-<span>Todo &Aacute; Blog Posts will go here</span>
-@Html.ActionLink("Blogs", "BlogDetails")
+<p>
+    Below are a few posts from some of our explorers.
+</p>
+
+<div>
+    @foreach (var post in Model)
+    {
+        @Html.Partial("_BlogDetails", post)
+
+    }
+</div>
 <p></p>
 
 
- 
