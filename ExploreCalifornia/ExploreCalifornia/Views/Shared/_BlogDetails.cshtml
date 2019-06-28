@@ -1,9 +1,11 @@
-﻿@model ExploreCalifornia.Models.BlogDetails
+﻿@*Inject the FormattingService model to use it*@
+@inject ExploreCalifornia.Models.FormattingService Format
+@model ExploreCalifornia.Models.BlogDetails
 
 <article class="my-blog">
     <h1>@Model.Title</h1>
     <div class="details">
-        Posted on <span>@Model.PostedOn</span> by <span>@Model.Author</span>
+        Posted on <span>@Format.AsReadableDate(Model.PostedOn)</span> by <span>@Model.Author</span>
     </div>
     <div class="content">
         @Model.Body
